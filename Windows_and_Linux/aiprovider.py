@@ -1,34 +1,34 @@
 """
-AI Provider Architecture for Writing Tools
---------------------------------------------
+Arquitetura de Provedores de IA para o Writing Tools
+------------------------------------------------------
 
-This module handles different AI model providers (Gemini, OpenAI-compatible, Ollama) and manages their interactions
-with the main application. It uses an abstract base class pattern for provider implementations.
+Este módulo gerencia diferentes provedores de modelos de IA (Gemini, compatível com OpenAI, Ollama) e administra suas interações
+com o aplicativo principal. Utiliza um padrão de classe base abstrata para as implementações dos provedores.
 
-Key Components:
-1. AIProviderSetting – Base class for provider settings (e.g. API keys, model names)
-    • TextSetting      – A simple text input for settings
-    • DropdownSetting  – A dropdown selection setting
+Componentes Principais:
+1. AIProviderSetting – Classe base para configurações do provedor (por exemplo, chaves de API, nomes de modelos)
+    • TextSetting      – Um campo de texto simples para configurações
+    • DropdownSetting  – Uma configuração via dropdown
 
-2. AIProvider – Abstract base class that all providers implement.
-   It defines the interface for:
-      • Getting a response from the AI model
-      • Loading and saving configuration settings
-      • Cancelling an ongoing request
+2. AIProvider – Classe base abstrata que todos os provedores implementam.
+   Define a interface para:
+      • Obter uma resposta do modelo de IA
+      • Carregar e salvar configurações
+      • Cancelar uma requisição em andamento
 
-3. Provider Implementations:
-    • GeminiProvider – Uses Google’s Generative AI API (Gemini) to generate content.
-    • OpenAICompatibleProvider – Connects to any OpenAI-compatible API (v1/chat/completions)
-    • OllamaProvider – Connects to a locally running Ollama server (e.g. for llama.cpp)
+3. Implementações de Provedores:
+    • GeminiProvider – Utiliza a API de IA Generativa do Google (Gemini) para gerar conteúdo.
+    • OpenAICompatibleProvider – Conecta-se a qualquer API compatível com OpenAI (v1/chat/completions)
+    • OllamaProvider – Conecta-se a um servidor Ollama em execução localmente (por exemplo, para llama.cpp)
 
-Response Flow:
-   • The main app calls get_response() with a system instruction and a prompt.
-   • The provider formats and sends the request to its API endpoint.
-   • For operations that require a window (e.g. Summary, Key Points), the provider returns the full text.
-   • For direct text replacement, the provider emits the full text via the output_ready_signal.
-   • Conversation history (for follow-up questions) is maintained by the main app.
+Fluxo de Resposta:
+   • O aplicativo principal chama get_response() com uma instrução do sistema e um prompt.
+   • O provedor formata e envia a requisição para seu endpoint de API.
+   • Para operações que exigem uma janela (por exemplo, Resumo, Pontos-Chave), o provedor retorna o texto completo.
+   • Para substituição direta de texto, o provedor emite o texto completo via output_ready_signal.
+   • O histórico de conversação (para perguntas de acompanhamento) é mantido pelo aplicativo principal.
 
-Note: Streaming has been fully removed throughout the code.
+Nota: O streaming foi completamente removido ao longo do código.
 """
 
 import logging
@@ -36,7 +36,7 @@ import webbrowser
 from abc import ABC, abstractmethod
 from typing import List
 
-# External libraries
+# Bibliotecas externas
 import google.generativeai as genai
 from google.generativeai.types import HarmBlockThreshold, HarmCategory
 from ollama import Client as OllamaClient
@@ -48,7 +48,7 @@ from ui.UIUtils import colorMode
 
 class AIProviderSetting(ABC):
     """
-    Abstract base class for a provider setting (e.g., API key, model selection).
+    Classe base abstrata para uma configuração de provedor (por exemplo, chave de API, seleção de modelo).
     """
     def __init__(self, name: str, display_name: str = None, default_value: str = None, description: str = None):
         self.name = name
@@ -58,23 +58,23 @@ class AIProviderSetting(ABC):
 
     @abstractmethod
     def render_to_layout(self, layout: QVBoxLayout):
-        """Render the setting widget(s) into the provided layout."""
+        """Renderiza o(s) widget(s) da configuração no layout fornecido."""
         pass
 
     @abstractmethod
     def set_value(self, value):
-        """Set the internal value from configuration."""
+        """Define o valor interno a partir da configuração."""
         pass
 
     @abstractmethod
     def get_value(self):
-        """Return the current value from the widget."""
+        """Retorna o valor atual do widget."""
         pass
 
 
 class TextSetting(AIProviderSetting):
     """
-    A text-based setting (for API keys, URLs, etc.).
+    Uma configuração baseada em texto (para chaves de API, URLs, etc.).
     """
     def __init__(self, name: str, display_name: str = None, default_value: str = None, description: str = None):
         super().__init__(name, display_name, default_value, description)
@@ -107,7 +107,7 @@ class TextSetting(AIProviderSetting):
 
 class DropdownSetting(AIProviderSetting):
     """
-    A dropdown setting (e.g., for selecting a model).
+    Uma configuração via dropdown (por exemplo, para selecionar um modelo).
     """
     def __init__(self, name: str, display_name: str = None, default_value: str = None,
                  description: str = None, options: list = None):
@@ -146,23 +146,23 @@ class DropdownSetting(AIProviderSetting):
 
 class AIProvider(ABC):
     """
-    Abstract base class for AI providers.
+    Classe base abstrata para provedores de IA.
     
-    All providers must implement:
+    Todos os provedores devem implementar:
       • get_response(system_instruction, prompt) -> str
-      • after_load() to create their client or model instance
-      • before_load() to cleanup any existing client
-      • cancel() to cancel an ongoing request
+      • after_load() para criar seu cliente ou instância de modelo
+      • before_load() para limpar qualquer cliente existente
+      • cancel() para cancelar uma requisição em andamento
     """
     def __init__(self, app, provider_name: str, settings: List[AIProviderSetting],
-                 description: str = "An unfinished AI provider!",
-                 logo: str = "generic",
-                 button_text: str = "Go to URL",
+                 description: str = "Um provedor de IA inacabado!",
+                 logo: str = "genérico",
+                 button_text: str = "Ir para URL",
                  button_action: callable = None):
         self.provider_name = provider_name
         self.settings = settings
         self.app = app
-        self.description = description if description else "An unfinished AI provider!"
+        self.description = description if description else "Um provedor de IA inacabado!"
         self.logo = logo
         self.button_text = button_text
         self.button_action = button_action
@@ -170,13 +170,13 @@ class AIProvider(ABC):
     @abstractmethod
     def get_response(self, system_instruction: str, prompt: str) -> str:
         """
-        Send the given system instruction and prompt to the AI provider and return the full response text.
+        Envia a instrução do sistema e o prompt para o provedor de IA e retorna o texto completo da resposta.
         """
         pass
 
     def load_config(self, config: dict):
         """
-        Load configuration settings into the provider.
+        Carrega as configurações no provedor.
         """
         for setting in self.settings:
             if setting.name in config:
@@ -188,7 +188,7 @@ class AIProvider(ABC):
 
     def save_config(self):
         """
-        Save provider configuration settings into the main config file.
+        Salva as configurações do provedor no arquivo de configuração principal.
         """
         config = {}
         for setting in self.settings:
@@ -199,70 +199,70 @@ class AIProvider(ABC):
     @abstractmethod
     def after_load(self):
         """
-        Called after configuration is loaded; create your API client here.
+        Chamado após a configuração ser carregada; crie seu cliente de API aqui.
         """
         pass
 
     @abstractmethod
     def before_load(self):
         """
-        Called before reloading configuration; cleanup your API client here.
+        Chamado antes de recarregar a configuração; limpe seu cliente de API aqui.
         """
         pass
 
     @abstractmethod
     def cancel(self):
         """
-        Cancel any ongoing API request.
+        Cancela qualquer requisição de API em andamento.
         """
         pass
 
 
 class GeminiProvider(AIProvider):
     """
-    Provider for Google's Gemini API.
+    Provedor para a API Gemini do Google.
     
-    Uses google.generativeai.GenerativeModel.generate_content() to generate text.
-    Streaming is no longer offered so we always do a single-shot call.
+    Utiliza google.generativeai.GenerativeModel.generate_content() para gerar texto.
+    O streaming não é utilizado; sempre é realizada uma requisição única.
     """
     def __init__(self, app):
         self.close_requested = False
         self.model = None
 
         settings = [
-            TextSetting(name="api_key", display_name="API Key", description="Paste your Gemini API key here"),
+            TextSetting(name="api_key", display_name="Chave de API", description="Cole sua chave da API Gemini aqui"),
             DropdownSetting(
                 name="model_name",
-                display_name="Model",
+                display_name="Modelo",
                 default_value="gemini-2.0-flash",
-                description="Select Gemini model to use",
+                description="Selecione o modelo Gemini a ser usado",
                 options=[
-                    ("Gemini 2.0 Flash Lite (intelligent | very fast | 30 uses/min)", "gemini-2.0-flash-lite-preview-02-05"),
-                    ("Gemini 2.0 Flash (very intelligent | fast | 15 uses/min)", "gemini-2.0-flash"),
-                    ("Gemini 2.0 Flash Thinking (most intelligent | slow | 10 uses/min)", "gemini-2.0-flash-thinking-exp-01-21"),
-                    ("Gemini 2.0 Pro (most intelligent | slow | 2 uses/min)", "gemini-2.0-pro-exp-02-05"),
+                    ("Gemini 2.0 Flash Lite (inteligente | muito rápido | 30 usos/min)", "gemini-2.0-flash-lite-preview-02-05"),
+                    ("Gemini 2.0 Flash (muito inteligente | rápido | 15 usos/min)", "gemini-2.0-flash"),
+                    ("Gemini 2.0 Flash Thinking (mais inteligente | lento | 10 usos/min)", "gemini-2.0-flash-thinking-exp-01-21"),
+                    ("Gemini 2.0 Pro (mais inteligente | lento | 2 usos/min)", "gemini-2.0-pro-exp-02-05"),
                 ]
             )
         ]
-        super().__init__(app, "Gemini (Recommended)", settings,
-            "• Google’s Gemini is a powerful AI model available for free!\n"
-            "• An API key is required to connect to Gemini on your behalf.\n"
-            "• Click the button below to get your API key.",
+        super().__init__(app, "Gemini (Recomendado)", settings,
+            "• O Gemini do Google é um modelo de IA poderoso disponível gratuitamente!\n"
+            "• É necessária uma chave de API para conectar-se ao Gemini em seu nome.\n"
+            "• Clique no botão abaixo para obter sua chave de API.",
             "gemini",
-            "Get API Key",
+            "Obter Chave de API",
             lambda: webbrowser.open("https://aistudio.google.com/app/apikey"))
 
     def get_response(self, system_instruction: str, prompt: str, return_response: bool = False) -> str:
         """
-        Generate content using Gemini.
+        Gera conteúdo utilizando o Gemini.
         
-        Always performs a single-shot request with streaming disabled.
-        Returns the full response text if return_response is True,
-        otherwise emits the text via the output_ready_signal.
+        Realiza sempre uma requisição única com streaming desativado.
+        Retorna o texto completo da resposta se return_response for True,
+        caso contrário, emite o texto via output_ready_signal.
         """
         self.close_requested = False
 
-        # Single-shot call with streaming disabled
+        # Chamada única com streaming desativado
         response = self.model.generate_content(
             contents=[system_instruction, prompt],
             stream=False
@@ -276,8 +276,8 @@ class GeminiProvider(AIProvider):
                 return ""
             return response_text
         except Exception as e:
-            logging.error(f"Error processing Gemini response: {e}")
-            self.app.output_ready_signal.emit("An error occurred while processing the response.")
+            logging.error(f"Erro ao processar resposta do Gemini: {e}")
+            self.app.output_ready_signal.emit("Ocorreu um erro ao processar a resposta.")
         finally:
             self.close_requested = False
 
@@ -285,7 +285,7 @@ class GeminiProvider(AIProvider):
 
     def after_load(self):
         """
-        Configure the google.generativeai client and create the generative model.
+        Configura o cliente do google.generativeai e cria o modelo generativo.
         """
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel(
@@ -312,35 +312,35 @@ class GeminiProvider(AIProvider):
 
 class OpenAICompatibleProvider(AIProvider):
     """
-    Provider for OpenAI-compatible APIs.
+    Provedor para APIs compatíveis com OpenAI.
     
-    Uses self.client.chat.completions.create() to obtain a response.
-    Streaming is fully removed.
+    Utiliza self.client.chat.completions.create() para obter uma resposta.
+    O streaming foi completamente removido.
     """
     def __init__(self, app):
         self.close_requested = None
         self.client = None
 
         settings = [
-            TextSetting(name="api_key", display_name="API Key", description="API key for the OpenAI-compatible API."),
-            TextSetting("api_base", "API Base URL", "https://api.openai.com/v1", "E.g. https://api.openai.com/v1"),
-            TextSetting("api_organisation", "API Organisation", "", "Leave blank if not applicable."),
-            TextSetting("api_project", "API Project", "", "Leave blank if not applicable."),
-            TextSetting("api_model", "API Model", "gpt-4o-mini", "E.g. gpt-4o-mini"),
+            TextSetting(name="api_key", display_name="Chave de API", description="Chave de API para a API compatível com OpenAI."),
+            TextSetting("api_base", "URL Base da API", "https://api.openai.com/v1", "Ex.: https://api.openai.com/v1"),
+            TextSetting("api_organisation", "Organização da API", "", "Deixe em branco se não aplicável."),
+            TextSetting("api_project", "Projeto da API", "", "Deixe em branco se não aplicável."),
+            TextSetting("api_model", "Modelo da API", "gpt-4o-mini", "Ex.: gpt-4o-mini"),
         ]
-        super().__init__(app, "OpenAI Compatible (For Experts)", settings,
-            "• Connect to ANY OpenAI-compatible API (v1/chat/completions).\n"
-            "• You must abide by the service's Terms of Service.",
-            "openai", "Get OpenAI API Key", lambda: webbrowser.open("https://platform.openai.com/account/api-keys"))
+        super().__init__(app, "OpenAI Compatible (Para Especialistas)", settings,
+           "• Conecte-se a QUALQUER API compatível com OpenAI (v1/chat/completions).\n"
+            "• Você deve obedecer aos Termos de Serviço do serviço.",
+            "openai", "Obter Chave API da OpenAI", lambda: webbrowser.open("https://platform.openai.com/account/api-keys"))
 
     def get_response(self, system_instruction: str, prompt: str | list, return_response: bool = False) -> str:
         """
-        Send a chat request to the OpenAI-compatible API.
+        Envia uma requisição de chat para a API compatível com OpenAI.
         
-        Always performs a non-streaming request.
-        If prompt is not a list, builds a simple two-message conversation.
-        Returns the response text if return_response is True,
-        otherwise emits it via output_ready_signal.
+        Realiza sempre uma requisição sem streaming.
+        Se prompt não for uma lista, constrói uma conversa simples com duas mensagens.
+        Retorna o texto da resposta se return_response for True,
+        caso contrário, emite-o via output_ready_signal.
         """
         self.close_requested = False
 
@@ -367,14 +367,14 @@ class OpenAICompatibleProvider(AIProvider):
 
         except Exception as e:
             error_str = str(e)
-            logging.error(f"Error while generating content: {error_str}")
+            logging.error(f"Erro durante a geração de conteúdo: {error_str}")
             if "exceeded" in error_str or "rate limit" in error_str:
                 self.app.show_message_signal.emit(
-                    "Rate Limit Hit",
-                    "It appears you have hit an API rate/usage limit. Please try again later or adjust your settings."
+                    "Limite de Taxa Atingido",
+                    "Parece que você atingiu um limite de taxa/uso da API. Por favor, tente novamente mais tarde ou ajuste suas configurações."
                 )
             else:
-                self.app.show_message_signal.emit("Error", f"An error occurred: {error_str}")
+                self.app.show_message_signal.emit("Erro", f"Ocorreu um erro: {error_str}")
             return ""
 
     def after_load(self):
@@ -394,32 +394,32 @@ class OpenAICompatibleProvider(AIProvider):
 
 class OllamaProvider(AIProvider):
     """
-    Provider for connecting to an Ollama server.
+    Provedor para conectar a um servidor Ollama.
     
-    Uses the /chat endpoint of the Ollama server to generate a response.
-    Streaming is not used.
+    Utiliza o endpoint /chat do servidor Ollama para gerar uma resposta.
+    O streaming não é utilizado.
     """
     def __init__(self, app):
         self.close_requested = None
         self.client = None
         self.app = app
         settings = [
-            TextSetting("api_base", "API Base URL", "http://localhost:11434", "E.g. http://localhost:11434"),
-            TextSetting("api_model", "API Model", "llama3.1:8b", "E.g. llama3.1:8b"),
-            TextSetting("keep_alive", "Time to keep the model loaded in memory in minutes", "5", "E.g. 5")
+            TextSetting("api_base", "URL Base da API", "http://localhost:11434", "Ex.: http://localhost:11434"),
+            TextSetting("api_model", "Modelo da API", "llama3.1:8b", "Ex.: llama3.1:8b"),
+            TextSetting("keep_alive", "Tempo para manter o modelo carregado em memória (em minutos)", "5", "Ex.: 5")
         ]
-        super().__init__(app, "Ollama (For Experts)", settings,
-            "• Connect to an Ollama server (local LLM).",
-            "ollama", "Ollama Set-up Instructions",
+        super().__init__(app, "Ollama (Para Especialistas)", settings,
+           "• Conectar-se a um servidor Ollama (LLM local).",
+            "ollama", "Instruções de Configuração do Ollama",
             lambda: webbrowser.open("https://github.com/theJayTea/WritingTools?tab=readme-ov-file#-optional-ollama-local-llm-instructions-for-windows-v7-onwards"))
 
     def get_response(self, system_instruction: str, prompt: str | list, return_response: bool = False) -> str:
         """
-        Send a chat request to the Ollama server.
+        Envia uma requisição de chat para o servidor Ollama.
         
-        Always performs a non-streaming request.
-        Returns the response text if return_response is True,
-        otherwise emits it via output_ready_signal.
+        Realiza sempre uma requisição sem streaming.
+        Retorna o texto da resposta se return_response for True,
+        caso contrário, emite-o via output_ready_signal.
         """
         self.close_requested = False
 
@@ -438,8 +438,8 @@ class OllamaProvider(AIProvider):
                 self.app.output_ready_signal.emit(response_text)
             return response_text
         except Exception as e:
-            logging.error(f"Error during Ollama chat: {e}")
-            self.app.output_ready_signal.emit("An error occurred during Ollama chat.")
+            logging.error(f"Erro durante o chat do Ollama: {e}")
+            self.app.output_ready_signal.emit("Ocorreu um erro durante o chat do Ollama.")
             return ""
 
     def after_load(self):

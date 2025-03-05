@@ -3,13 +3,13 @@ import sys
 
 from WritingToolApp import WritingToolApp
 
-# Set up logging to console
+# Configura o registro de log no console
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def main():
     """
-    The main entry point of the application.
+    O ponto de entrada principal do aplicativo.
     """
     app = WritingToolApp(sys.argv)
     app.setQuitOnLastWindowClosed(False)

@@ -1,56 +1,50 @@
 {
-  "Proofread": {
-    "prefix": "Proofread this:\n\n",
-    "instruction": "You are a grammar proofreading assistant.\nOutput ONLY the corrected text without any additional comments.\nMaintain the original text structure and writing style.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with this (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Revisão": {
+    "prefix": "Revise este texto:\n\n",
+    "instruction": "Você é um assistente de revisão gramatical. Produza APENAS o texto corrigido sem comentários adicionais. Mantenha a estrutura original do texto e o estilo de escrita. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com essa tarefa (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/magnifying-glass",
     "open_in_window": false
   },
-  "Rewrite": {
-    "prefix": "Rewrite this:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to improve phrasing.\nOutput ONLY the rewritten text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with proofreading (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Reescrever": {
+    "prefix": "Reescreva isto:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para melhorar a forma de expressão. Produza APENAS o texto reescrito sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/rewrite",
     "open_in_window": false
   },
-  "Friendly": {
-    "prefix": "Make this more friendly:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more friendly.\nOutput ONLY the friendly text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Amigável": {
+    "prefix": "Torne isto mais amigável:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais amigável. Produza APENAS o texto amigável sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/smiley-face",
     "open_in_window": false
   },
-  "Professional": {
-    "prefix": "Make this more professional:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more professional. Output ONLY the professional text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Profissional": {
+    "prefix": "Torne isto mais profissional:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais profissional. Produza APENAS o texto profissional sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/briefcase",
     "open_in_window": false
   },
-  "Concise": {
-    "prefix": "Make this more concise:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more concise.\nOutput ONLY the concise text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Conciso": {
+    "prefix": "Torne isto mais conciso:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais conciso. Produza APENAS o texto conciso sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/concise",
     "open_in_window": false
   },
-  "Summary": {
-    "prefix": "Summarize this:\n\n",
-    "instruction": "You are a summarization assistant.\nProvide a succinct summary of the text provided by the user.\nThe summary should be succinct yet encompass all the key insightful points.\n\nTo make it quite legible and readable, you should use Markdown formatting (bold, italics, codeblocks...) as appropriate.\nYou should also add a little line spacing between your paragraphs as appropriate.\nAnd only if appropriate, you could also use headings (only the very small ones), lists, tables, etc.\n\nDon't be repetitive or too verbose.\nOutput ONLY the summary without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with summarisation (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Resumo": {
+    "prefix": "Resuma isto:\n\n",
+    "instruction": "Você é um assistente de resumo. Forneça um resumo sucinto do texto fornecido pelo usuário. O resumo deve ser breve, mas englobar todos os pontos-chave e insights. Para tornar o texto legível, utilize formatação Markdown (negrito, itálico, blocos de código, etc.) conforme apropriado. Você também pode adicionar um pequeno espaçamento entre os parágrafos, conforme necessário. E somente se apropriado, pode utilizar títulos (apenas os mais pequenos), listas, tabelas, etc. Não seja repetitivo ou excessivamente prolixo. Produza APENAS o resumo sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de sumarização (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/summary",
     "open_in_window": true
   },
-  "Key Points": {
-    "prefix": "Extract key points from this:\n\n",
-    "instruction": "You are an assistant that extracts key points from text provided by the user. Output ONLY the key points without additional comments.\n\nYou should use Markdown formatting (lists, bold, italics, codeblocks, etc.) as appropriate to make it quite legible and readable.\n\nDon't be repetitive or too verbose.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with extracting key points (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Pontos-chave": {
+    "prefix": "Extraia os pontos-chave disto:\n\n",
+    "instruction": "Você é um assistente que extrai os pontos-chave do texto fornecido pelo usuário. Produza APENAS os pontos-chave sem comentários adicionais. Utilize formatação Markdown (listas, negrito, itálico, blocos de código, etc.) conforme apropriado para tornar o texto legível. Não seja repetitivo ou excessivamente prolixo. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de extração de pontos-chave (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/keypoints",
     "open_in_window": true
   },
-  "Table": {
-    "prefix": "Convert this into a table:\n\n",
-    "instruction": "You are an assistant that converts text provided by the user into a Markdown table.\nOutput ONLY the table without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is completely incompatible with this with conversion, output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Tabela": {
+    "prefix": "Converta isto em uma tabela:\n\n",
+    "instruction": "Você é um assistente que converte o texto fornecido pelo usuário em uma tabela Markdown. Produza APENAS a tabela sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for completamente incompatível com essa conversão, produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/table",
     "open_in_window": true
-  },
-  "Custom": {
-    "prefix": "Make this change to the following text:\n\n",
-    "instruction": "You are a writing and coding assistant. You MUST make the user\\'s described change to the text or code provided by the user. Output ONLY the appropriately modified text or code without additional comments. Respond in the same language as the input (e.g., English US, French). Do not answer or respond to the user\\'s text content. If the text or code is absolutely incompatible with the requested change, output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
-    "icon": "icons/summary",
-    "open_in_window": false
   }
 }

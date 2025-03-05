@@ -13,8 +13,8 @@ _ = lambda x: x
 
 class SettingsWindow(QtWidgets.QWidget):
     """
-    The settings window for the application.
-    Now with scrolling support for better usability on smaller screens.
+    A janela de configurações do aplicativo.
+    Agora com suporte a rolagem para melhor usabilidade em telas menores.
     """
     close_signal = QtCore.Signal()
 
@@ -32,13 +32,12 @@ class SettingsWindow(QtWidgets.QWidget):
         self.init_ui()
         self.retranslate_ui()
 
-
     def retranslate_ui(self):
-        self.setWindowTitle(_("Settings"))
+        self.setWindowTitle(_("Configurações"))
 
     def init_provider_ui(self, provider: AIProvider, layout):
         """
-        Initialize the user interface for the provider, including logo, name, description and all settings.
+        Inicializa a interface do provedor, incluindo logotipo, nome, descrição e todas as configurações.
         """
         if self.current_provider_layout:
             self.current_provider_layout.setParent(None)
@@ -47,7 +46,7 @@ class SettingsWindow(QtWidgets.QWidget):
 
         self.current_provider_layout = QtWidgets.QVBoxLayout()
 
-        # Create a horizontal layout for the logo and provider name
+        # Cria um layout horizontal para o logotipo e o nome do provedor
         provider_header_layout = QtWidgets.QHBoxLayout()
         provider_header_layout.setSpacing(10)
         provider_header_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -75,10 +74,10 @@ class SettingsWindow(QtWidgets.QWidget):
             self.current_provider_layout.addWidget(description_label)
 
         if hasattr(provider, 'ollama_button_text'):
-            # Create container for buttons
+            # Cria um contêiner para os botões
             button_layout = QtWidgets.QHBoxLayout()
             
-            # Add Ollama setup button
+            # Adiciona o botão de configuração do Ollama
             ollama_button = QtWidgets.QPushButton(provider.ollama_button_text)
             ollama_button.setStyleSheet(f"""
                 QPushButton {{
@@ -96,7 +95,7 @@ class SettingsWindow(QtWidgets.QWidget):
             ollama_button.clicked.connect(provider.ollama_button_action)
             button_layout.addWidget(ollama_button)
             
-            # Add original button
+            # Adiciona o botão original
             main_button = QtWidgets.QPushButton(provider.button_text)
             main_button.setStyleSheet(f"""
                 QPushButton {{
@@ -116,7 +115,7 @@ class SettingsWindow(QtWidgets.QWidget):
             
             self.current_provider_layout.addLayout(button_layout)
         else:
-            # Original single button logic
+            # Lógica original para botão único
             if provider.button_text:
                 button = QtWidgets.QPushButton(provider.button_text)
                 button.setStyleSheet(f"""
@@ -135,13 +134,13 @@ class SettingsWindow(QtWidgets.QWidget):
                 button.clicked.connect(provider.button_action)
                 self.current_provider_layout.addWidget(button, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        # Initialize config if needed
+        # Inicializa a configuração se necessário
         if "providers" not in self.app.config:
             self.app.config["providers"] = {}
         if provider.provider_name not in self.app.config["providers"]:
             self.app.config["providers"][provider.provider_name] = {}
 
-        # Add provider settings
+        # Adiciona as configurações do provedor
         for setting in provider.settings:
             setting.set_value(self.app.config["providers"][provider.provider_name].get(setting.name, setting.default_value))
             setting.render_to_layout(self.current_provider_layout)
@@ -150,32 +149,31 @@ class SettingsWindow(QtWidgets.QWidget):
 
     def init_ui(self):
         """
-        Initialize the user interface for the settings window.
-        Now includes a scroll area for better handling of content on smaller screens.
+        Inicializa a interface da janela de configurações.
+        Agora inclui uma área rolável para melhor exibição do conteúdo em telas menores.
         """
-        self.setWindowTitle(_('Settings'))
-        # Set the exact width we want (592px) as both minimum and default
+        self.setWindowTitle(_("Configurações"))
+        # Define a largura exata desejada (592px) como mínima e fixa
         self.setMinimumWidth(592)
-        self.setFixedWidth(592)  # This makes the width non-resizable
+        self.setFixedWidth(592)  # Torna a largura não redimensionável
 
-        # Set up the main window layout with spacing for bottom elements
+        # Configura o layout principal da janela com espaçamento para os elementos inferiores
         UIUtils.setup_window_and_layout(self)
         main_layout = QtWidgets.QVBoxLayout(self.background)
         main_layout.setContentsMargins(0, 0, 0, 0)
-        main_layout.setSpacing(10)  # Add spacing between scroll area and bottom elements
+        main_layout.setSpacing(10)  # Adiciona espaçamento entre a área rolável e os elementos inferiores
 
-        # Earlier scroll_area and scroll_content creation moved up
-        # Create scroll area
-        scroll_area = QScrollArea()
+        # Cria a área de rolagem
+        scroll_area = QtWidgets.QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         scroll_area.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
-        # Create scroll content widget
+        # Cria o widget para o conteúdo rolável
         scroll_content = QtWidgets.QWidget()
         scroll_content.setStyleSheet("background: transparent;")
         
-        # Style the scroll area for transparency
+        # Estiliza a área de rolagem para transparência
         scroll_area.setStyleSheet("""
             QScrollArea {
                 background: transparent;
@@ -200,27 +198,27 @@ class SettingsWindow(QtWidgets.QWidget):
             }
         """)
 
-        # Create a widget to hold the scrollable content
+        # Cria um widget para conter o conteúdo rolável
         scroll_content = QtWidgets.QWidget()
         content_layout = QtWidgets.QVBoxLayout(scroll_content)
         content_layout.setContentsMargins(30, 30, 30, 30)
         content_layout.setSpacing(20)
 
         if not self.providers_only:
-            title_label = QtWidgets.QLabel(_("Settings"))
+            title_label = QtWidgets.QLabel(_("Configurações"))
             title_label.setStyleSheet(f"font-size: 24px; font-weight: bold; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
             content_layout.addWidget(title_label, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-            # Add autostart checkbox for Windows compiled version
+            # Adiciona a caixa de seleção de inicialização automática para a versão compilada no Windows
             if AutostartManager.get_startup_path():
-                self.autostart_checkbox = QtWidgets.QCheckBox(_("Start on Boot"))
+                self.autostart_checkbox = QtWidgets.QCheckBox(_("Iniciar com o Sistema"))
                 self.autostart_checkbox.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
                 self.autostart_checkbox.setChecked(AutostartManager.check_autostart())
                 self.autostart_checkbox.stateChanged.connect(self.toggle_autostart)
                 content_layout.addWidget(self.autostart_checkbox)
 
-            # Add shortcut key input
-            shortcut_label = QtWidgets.QLabel(_("Shortcut Key:"))
+            # Adiciona o campo de entrada para a tecla de atalho
+            shortcut_label = QtWidgets.QLabel(_("Tecla de Atalho:"))
             shortcut_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
             content_layout.addWidget(shortcut_label)
 
@@ -234,14 +232,14 @@ class SettingsWindow(QtWidgets.QWidget):
             """)
             content_layout.addWidget(self.shortcut_input)
 
-            # Add theme selection
-            theme_label = QtWidgets.QLabel(_("Background Theme:"))
+            # Adiciona a seleção de tema de fundo
+            theme_label = QtWidgets.QLabel(_("Tema de Fundo:"))
             theme_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
             content_layout.addWidget(theme_label)
 
             theme_layout = QHBoxLayout()
-            self.gradient_radio = QRadioButton(_("Blurry Gradient"))
-            self.plain_radio = QRadioButton(_("Plain"))
+            self.gradient_radio = QRadioButton(_("Gradiente Difuso"))
+            self.plain_radio = QRadioButton(_("Simples"))
             self.gradient_radio.setStyleSheet(f"color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
             self.plain_radio.setStyleSheet(f"color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
             current_theme = self.app.config.get('theme', 'gradient')
@@ -251,8 +249,8 @@ class SettingsWindow(QtWidgets.QWidget):
             theme_layout.addWidget(self.plain_radio)
             content_layout.addLayout(theme_layout)
 
-        # Add provider selection
-        provider_label = QtWidgets.QLabel(_("Choose AI Provider:"))
+        # Adiciona a seleção de provedor de IA
+        provider_label = QtWidgets.QLabel(_("Escolha o Provedor de IA:"))
         provider_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         content_layout.addWidget(provider_label)
 
@@ -272,44 +270,44 @@ class SettingsWindow(QtWidgets.QWidget):
         self.provider_dropdown.setCurrentIndex(self.provider_dropdown.findText(current_provider))
         content_layout.addWidget(self.provider_dropdown)
 
-        # Add horizontal separator
+        # Adiciona um separador horizontal
         line = QtWidgets.QFrame()
         line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         content_layout.addWidget(line)
 
-        # Create container for provider UI
+        # Cria o contêiner para a interface do provedor
         self.provider_container = QtWidgets.QVBoxLayout()
         content_layout.addLayout(self.provider_container)
 
-        # Initialize provider UI
+        # Inicializa a interface do provedor
         provider_instance = self.app.providers[self.provider_dropdown.currentIndex()]
         self.init_provider_ui(provider_instance, self.provider_container)
 
-        # Connect provider dropdown
+        # Conecta a alteração do provedor na lista
         self.provider_dropdown.currentIndexChanged.connect(
             lambda: self.init_provider_ui(self.app.providers[self.provider_dropdown.currentIndex()], self.provider_container)
         )
 
-        # Add horizontal separator
+        # Adiciona outro separador horizontal
         line = QtWidgets.QFrame()
         line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         content_layout.addWidget(line)
 
-        # Set up scroll area with content
+        # Configura a área rolável com o conteúdo
         scroll_area.setWidget(scroll_content)
         main_layout.addWidget(scroll_area)
 
-        # Create bottom container for save button and restart notice
+        # Cria o contêiner inferior para o botão de salvar e o aviso de reinicialização
         bottom_container = QtWidgets.QWidget()
-        bottom_container.setStyleSheet("background: transparent;")  # Ensure transparency
+        bottom_container.setStyleSheet("background: transparent;")
         bottom_layout = QtWidgets.QVBoxLayout(bottom_container)
-        bottom_layout.setContentsMargins(30, 0, 30, 30)  # Match content margins except top
+        bottom_layout.setContentsMargins(30, 0, 30, 30)
         bottom_layout.setSpacing(10)
 
-        # Add save button to bottom container
-        save_button = QtWidgets.QPushButton(_("Finish AI Setup") if self.providers_only else _("Save"))
+        # Adiciona o botão de salvar ao contêiner inferior
+        save_button = QtWidgets.QPushButton((_('Concluir Configuração da IA') if self.providers_only else _('Salvar')))
         save_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -328,7 +326,7 @@ class SettingsWindow(QtWidgets.QWidget):
 
         if not self.providers_only:
             restart_text = "<p style='text-align: center;'>" + \
-            _("Please restart Writing Tools for changes to take effect.") + \
+            (_("Por favor, reinicie o Writing Tools para que as alterações tenham efeito.")) + \
             "</p>"
 
             restart_notice = QtWidgets.QLabel(restart_text)
@@ -338,20 +336,20 @@ class SettingsWindow(QtWidgets.QWidget):
 
         main_layout.addWidget(bottom_container)
 
-        # Set appropriate window height based on screen size
+        # Define a altura adequada da janela com base no tamanho da tela
         screen = QtWidgets.QApplication.primaryScreen().geometry()
-        max_height = int(screen.height() * 0.85)  # 85% of screen height
-        desired_height = min(720, max_height)  # Cap at 720px or 85% of screen height
-        self.resize(592, desired_height)  # Use an exact width of 592px so stuff looks good!
+        max_height = int(screen.height() * 0.85)  # 85% da altura da tela
+        desired_height = min(720, max_height)  # Limita a 720px ou 85% da altura da tela
+        self.resize(592, desired_height)  # Usa uma largura exata de 592px para uma boa apresentação
 
     @staticmethod
     def toggle_autostart(state):
-        """Toggle the autostart setting."""
+        """Alterna a configuração de inicialização automática."""
         AutostartManager.set_autostart(state == 2)
 
     def save_settings(self):
-        """Save the current settings."""
-        self.app.config['locale'] = 'en'
+        """Salva as configurações atuais."""
+        self.app.config['locale'] = 'pt_BR'
 
         if not self.providers_only:
             self.app.config['shortcut'] = self.shortcut_input.text()
@@ -379,7 +377,7 @@ class SettingsWindow(QtWidgets.QWidget):
         self.close()
 
     def closeEvent(self, event):
-        """Handle window close event."""
+        """Trata o evento de fechamento da janela."""
         if self.providers_only:
             self.close_signal.emit()
         super().closeEvent(event)

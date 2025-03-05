@@ -6,22 +6,22 @@ if sys.platform.startswith("win32"):
 
 class AutostartManager:
     """
-    Manages the autostart functionality for Writing Tools.
-    Handles setting/removing autostart registry entries on Windows.
+    Gerencia a funcionalidade de inicialização automática do Writing Tools.
+    Trata a configuração e remoção das entradas de registro de inicialização automática no Windows.
     """
     
     @staticmethod
     def is_compiled():
         """
-        Check if we're running from a compiled exe or source.
+        Verifica se estamos executando a partir de um exe compilado ou do código-fonte.
         """
         return hasattr(sys, 'frozen') and hasattr(sys, '_MEIPASS')
 
     @staticmethod
     def get_startup_path():
         """
-        Get the path that should be used for autostart.
-        Returns None if running from source or on non-Windows.
+        Retorna o caminho que deve ser usado para a inicialização automática.
+        Retorna None se estiver executando a partir do código-fonte ou em um sistema que não seja Windows.
         """
         if not sys.platform.startswith('win32'):
             return None
@@ -34,13 +34,13 @@ class AutostartManager:
     @staticmethod
     def set_autostart(enable: bool) -> bool:
         """
-        Enable or disable autostart for Writing Tools.
+        Ativa ou desativa a inicialização automática do Writing Tools.
         
-        Args:
-            enable: True to enable autostart, False to disable
+        Parâmetros:
+            enable: True para ativar a inicialização automática, False para desativar
             
-        Returns:
-            bool: True if operation succeeded, False if failed or unsupported
+        Retorna:
+            bool: True se a operação foi bem-sucedida, False se falhou ou não for suportada
         """
         try:
             startup_path = AutostartManager.get_startup_path()
@@ -51,39 +51,39 @@ class AutostartManager:
             
             try:
                 if enable:
-                    # Open/create key and set value
+                    # Abre/cria a chave e define o valor
                     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, 
                                        winreg.KEY_WRITE)
                     winreg.SetValueEx(key, "WritingTools", 0, winreg.REG_SZ, 
                                     startup_path)
                 else:
-                    # Open key and delete value if it exists
+                    # Abre a chave e deleta o valor, se existir
                     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0,
                                        winreg.KEY_WRITE)
                     try:
                         winreg.DeleteValue(key, "WritingTools")
                     except WindowsError:
-                        # Value doesn't exist, that's fine
+                        # O valor não existe, o que está ok
                         pass
                         
                 winreg.CloseKey(key)
                 return True
                 
             except WindowsError as e:
-                logging.error(f"Failed to modify autostart registry: {e}")
+                logging.error(f"Falha ao modificar o registro de inicialização automática: {e}")
                 return False
                 
         except Exception as e:
-            logging.error(f"Error managing autostart: {e}")
+            logging.error(f"Erro ao gerenciar a inicialização automática: {e}")
             return False
 
     @staticmethod
     def check_autostart() -> bool:
         """
-        Check if Writing Tools is set to start automatically.
+        Verifica se o Writing Tools está configurado para iniciar automaticamente.
         
-        Returns:
-            bool: True if autostart is enabled, False if disabled or unsupported
+        Retorna:
+            bool: True se a inicialização automática estiver ativada, False se estiver desativada ou não for suportada
         """
         try:
             startup_path = AutostartManager.get_startup_path()
@@ -97,13 +97,13 @@ class AutostartManager:
                 value, _ = winreg.QueryValueEx(key, "WritingTools")
                 winreg.CloseKey(key)
                 
-                # Check if the stored path matches our current exe
+                # Verifica se o caminho armazenado corresponde ao nosso exe atual
                 return value.lower() == startup_path.lower()
                 
             except WindowsError:
-                # Key or value doesn't exist
+                # A chave ou valor não existe
                 return False
                 
         except Exception as e:
-            logging.error(f"Error checking autostart status: {e}")
+            logging.error(f"Erro ao verificar o status da inicialização automática: {e}")
             return False

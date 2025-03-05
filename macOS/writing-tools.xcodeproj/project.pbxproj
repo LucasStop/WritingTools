@@ -191,10 +191,10 @@
 				};
 			};
 			buildConfigurationList = 2ABCBC192CDEB606001E4B5E /* Build configuration list for PBXProject "writing-tools" */;
-			developmentRegion = en;
+			developmentRegion =pt_BR;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				pt_BR,
 				Base,
 			);
 			mainGroup = 2ABCBC152CDEB606001E4B5E;

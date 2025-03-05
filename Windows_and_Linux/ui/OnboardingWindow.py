@@ -8,7 +8,7 @@ from ui.UIUtils import UIUtils, colorMode
 _ = lambda x: x
 
 class OnboardingWindow(QtWidgets.QWidget):
-    # Closing signal
+    # Sinal de fechamento
     close_signal = QtCore.Signal()
 
     def __init__(self, app):
@@ -22,8 +22,8 @@ class OnboardingWindow(QtWidgets.QWidget):
         self.self_close = False
 
     def init_ui(self):
-        logging.debug('Initializing onboarding UI')
-        self.setWindowTitle(_('Welcome to Writing Tools'))
+        logging.debug('Inicializando a interface de onboarding')
+        self.setWindowTitle(_('Bem-vindo ao Writing Tools'))
         self.resize(600, 500)
 
         UIUtils.setup_window_and_layout(self)
@@ -39,28 +39,28 @@ class OnboardingWindow(QtWidgets.QWidget):
     def show_welcome_screen(self):
         UIUtils.clear_layout(self.content_layout)
 
-        title_label = QtWidgets.QLabel(_("Welcome to Writing Tools")+"!")
+        title_label = QtWidgets.QLabel(_("Bem-vindo ao Writing Tools") + "!")
         title_label.setStyleSheet(f"font-size: 24px; font-weight: bold; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         self.content_layout.addWidget(title_label, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
         features_text = f"""
-        • {_('Instantly optimize your writing with AI by selecting your text and invoking Writing Tools with "ctrl+space", anywhere.')} 
+        • {_('Otimize instantaneamente sua escrita com IA selecionando seu texto e invocando o Writing Tools com "ctrl+space", em qualquer lugar.')} 
 
-        • {_('Get a summary you can chat with of articles, YouTube videos, or documents by select all text with "ctrl+a"')}
-          {_('(or select the YouTube transcript from its description), invoking Writing Tools, and choosing Summary.')}
+        • {_('Obtenha um resumo com o qual você pode conversar de artigos, vídeos do YouTube ou documentos selecionando todo o texto com "ctrl+a"')}
+          {_('(ou selecione a transcrição do YouTube a partir da descrição), invocando o Writing Tools e escolhendo Resumo.')}
 
-        • {_('Chat with AI anytime by invoking Writing Tools without selecting any text.')}
+        • {_('Converse com a IA a qualquer momento invocando o Writing Tools sem selecionar nenhum texto.')}
 
-        • {_('Supports an extensive range of AI models:')}
+        • {_('Suporta uma ampla gama de modelos de IA:')}
             - {_('Gemini 2.0')}
-            - {_('ANY OpenAI Compatible API — including local LLMs!')}
+            - {_('QUALQUER API compatível com OpenAI — incluindo LLMs locais!')}
         """
         features_label = QtWidgets.QLabel(features_text)
         features_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         features_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
         self.content_layout.addWidget(features_label)
 
-        shortcut_label = QtWidgets.QLabel("Customize your shortcut key (default: \"ctrl+space\"):")
+        shortcut_label = QtWidgets.QLabel("Personalize sua tecla de atalho (padrão: \"ctrl+space\"):")
         shortcut_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         self.content_layout.addWidget(shortcut_label)
 
@@ -74,13 +74,13 @@ class OnboardingWindow(QtWidgets.QWidget):
         """)
         self.content_layout.addWidget(self.shortcut_input)
 
-        theme_label = QtWidgets.QLabel(_("Choose your theme:"))
+        theme_label = QtWidgets.QLabel(_("Escolha seu tema:"))
         theme_label.setStyleSheet(f"font-size: 16px; color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         self.content_layout.addWidget(theme_label)
 
         theme_layout = QHBoxLayout()
-        gradient_radio = QRadioButton(_("Gradient"))
-        plain_radio = QRadioButton(_("Plain"))
+        gradient_radio = QRadioButton(_("Gradiente"))
+        plain_radio = QRadioButton(_("Simples"))
         gradient_radio.setStyleSheet(f"color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         plain_radio.setStyleSheet(f"color: {'#ffffff' if colorMode == 'dark' else '#333333'};")
         gradient_radio.setChecked(self.theme == 'gradient')
@@ -89,7 +89,7 @@ class OnboardingWindow(QtWidgets.QWidget):
         theme_layout.addWidget(plain_radio)
         self.content_layout.addLayout(theme_layout)
 
-        next_button = QtWidgets.QPushButton(_('Next'))
+        next_button = QtWidgets.QPushButton(_('Próximo'))
         next_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -109,7 +109,7 @@ class OnboardingWindow(QtWidgets.QWidget):
     def on_next_clicked(self, is_gradient):
         self.shortcut = self.shortcut_input.text()
         self.theme = 'gradient' if is_gradient else 'plain'
-        logging.debug(f'User selected shortcut: {self.shortcut}, theme: {self.theme}')
+        logging.debug(f'Atalho selecionado: {self.shortcut}, tema: {self.theme}')
         self.app.config = {
             'shortcut': self.shortcut,
             'theme': self.theme
@@ -122,7 +122,7 @@ class OnboardingWindow(QtWidgets.QWidget):
         self.close()
 
     def closeEvent(self, event):
-        # Emit the close signal
+        # Emite o sinal de fechamento
         if not self.self_close:
             self.close_signal.emit()
         super().closeEvent(event)

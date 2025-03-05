@@ -14,8 +14,8 @@ class UpdateChecker:
         
     def _fetch_latest_version(self):
         """
-        Fetch the latest version number from GitHub.
-        Returns the version number or None if failed.
+        Busca o número da versão mais recente no GitHub.
+        Retorna o número da versão ou None se falhar.
         """
         try:
             with urlopen(UPDATE_CHECK_URL, timeout=5) as response:
@@ -23,31 +23,31 @@ class UpdateChecker:
                 try:
                     return int(data)
                 except ValueError:
-                    logging.warning(f"Invalid version number format: {data}")
+                    logging.warning(f"Formato de número de versão inválido: {data}")
                     return None
         except (URLError, HTTPError) as e:
-            logging.warning(f"Failed to fetch version info: {e}")
+            logging.warning(f"Falha ao buscar informações de versão: {e}")
             return None
         except Exception as e:
-            logging.error(f"Unexpected error checking for updates: {e}")
+            logging.error(f"Erro inesperado ao verificar atualizações: {e}")
             return None
 
     def _retry_fetch_version(self):
         """
-        Attempt to fetch version with one retry.
+        Tenta buscar a versão com uma única nova tentativa.
         """
         result = self._fetch_latest_version()
         if result is None:
-            # Wait 2 seconds before retry
+            # Aguarda 2 segundos antes de tentar novamente
             time.sleep(2)
             result = self._fetch_latest_version()
         return result
 
     def check_updates(self):
         """
-        Check if an update is available. 
-        Always checks against cloud value and updates config accordingly.
-        Returns True if an update is available.
+        Verifica se uma atualização está disponível.
+        Sempre compara com o valor na nuvem e atualiza a configuração conforme necessário.
+        Retorna True se uma atualização estiver disponível.
         """
         latest_version = self._retry_fetch_version()
         
@@ -56,7 +56,7 @@ class UpdateChecker:
             
         update_available = latest_version > CURRENT_VERSION
         
-        # Always update config with fresh status
+        # Sempre atualiza a configuração com o status atualizado
         if "update_available" in self.app.config or update_available:
             self.app.config["update_available"] = update_available
             self.app.save_config(self.app.config)
@@ -65,7 +65,7 @@ class UpdateChecker:
 
     def check_updates_async(self):
         """
-        Perform the update check in a background thread.
+        Realiza a verificação de atualizações em uma thread em segundo plano.
         """
         def check_thread():
             self.check_updates()

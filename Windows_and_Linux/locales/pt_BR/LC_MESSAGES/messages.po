@@ -1,0 +1,34 @@
+# Traduções para o Writing Tools para o português brasileiro.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# Este arquivo é distribuído sob a mesma licença do pacote Writing Tools.
+# Último tradutor: [Seu Nome ou Email]
+# Equipe de Tradução: Português Brasileiro
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Writing Tools\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-28 19:44+0100\n"
+"PO-Revision-Date: 2025-03-05 00:00+0000\n"
+"Last-Translator: [Seu Nome ou Email]\n"
+"Language-Team: Portuguese (Brazil) <pt_BR@example.com>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Custom Translation Script\n"
+
+#: ui/AboutWindow.py:44
+msgid "About Writing Tools"
+msgstr "Sobre as Ferramentas de Escrita"
+
+#: ui/AboutWindow.py:49
+msgid ""
+"Writing Tools is a free & lightweight tool that helps you improve your "
+"writing with AI, similar to Apple's new Apple Intelligence feature. It works "
+"with an extensive range of AI LLMs, both online and locally run."
+msgstr ""
+"Writing Tools é uma ferramenta gratuita e leve que ajuda você a melhorar sua "
+"escrita com IA, similar ao novo recurso Apple Intelligence da Apple. Funciona "
+"com uma ampla variedade de LLMs de IA, tanto online quanto localmente."

@@ -23,74 +23,69 @@ from ui.UIUtils import ThemeBackground, colorMode
 _ = lambda x: x
 
 ################################################################################
-# Default `options.json` content to restore when the user presses "Reset"
+# Conteúdo padrão do arquivo `options.json` para restaurar quando o usuário pressionar "Reset"
 ################################################################################
 DEFAULT_OPTIONS_JSON = r"""{
-  "Proofread": {
-    "prefix": "Proofread this:\n\n",
-    "instruction": "You are a grammar proofreading assistant.\nOutput ONLY the corrected text without any additional comments.\nMaintain the original text structure and writing style.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with this (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+{
+  "Revisão": {
+    "prefix": "Revise este texto:\n\n",
+    "instruction": "Você é um assistente de revisão gramatical. Produza APENAS o texto corrigido sem comentários adicionais. Mantenha a estrutura original do texto e o estilo de escrita. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com essa tarefa (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/magnifying-glass",
     "open_in_window": false
   },
-  "Rewrite": {
-    "prefix": "Rewrite this:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to improve phrasing.\nOutput ONLY the rewritten text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with proofreading (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Reescrever": {
+    "prefix": "Reescreva isto:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para melhorar a forma de expressão. Produza APENAS o texto reescrito sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/rewrite",
     "open_in_window": false
   },
-  "Friendly": {
-    "prefix": "Make this more friendly:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more friendly.\nOutput ONLY the friendly text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Amigável": {
+    "prefix": "Torne isto mais amigável:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais amigável. Produza APENAS o texto amigável sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/smiley-face",
     "open_in_window": false
   },
-  "Professional": {
-    "prefix": "Make this more professional:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more professional. Output ONLY the professional text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Profissional": {
+    "prefix": "Torne isto mais profissional:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais profissional. Produza APENAS o texto profissional sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/briefcase",
     "open_in_window": false
   },
-  "Concise": {
-    "prefix": "Make this more concise:\n\n",
-    "instruction": "You are a writing assistant.\nRewrite the text provided by the user to be more concise.\nOutput ONLY the concise text without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with rewriting (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Conciso": {
+    "prefix": "Torne isto mais conciso:\n\n",
+    "instruction": "Você é um assistente de escrita. Reescreva o texto fornecido pelo usuário para que fique mais conciso. Produza APENAS o texto conciso sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de reescrita (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/concise",
     "open_in_window": false
   },
-  "Table": {
-    "prefix": "Convert this into a table:\n\n",
-    "instruction": "You are an assistant that converts text provided by the user into a Markdown table.\nOutput ONLY the table without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is completely incompatible with this with conversion, output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
-    "icon": "icons/table",
+  "Resumo": {
+    "prefix": "Resuma isto:\n\n",
+    "instruction": "Você é um assistente de resumo. Forneça um resumo sucinto do texto fornecido pelo usuário. O resumo deve ser breve, mas englobar todos os pontos-chave e insights. Para tornar o texto legível, utilize formatação Markdown (negrito, itálico, blocos de código, etc.) conforme apropriado. Você também pode adicionar um pequeno espaçamento entre os parágrafos, conforme necessário. E somente se apropriado, pode utilizar títulos (apenas os mais pequenos), listas, tabelas, etc. Não seja repetitivo ou excessivamente prolixo. Produza APENAS o resumo sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de sumarização (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+    "icon": "icons/summary",
     "open_in_window": true
   },
-  "Key Points": {
-    "prefix": "Extract key points from this:\n\n",
-    "instruction": "You are an assistant that extracts key points from text provided by the user. Output ONLY the key points without additional comments.\n\nYou should use Markdown formatting (lists, bold, italics, codeblocks, etc.) as appropriate to make it quite legible and readable.\n\nDon't be repetitive or too verbose.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with extracting key points (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+  "Pontos-chave": {
+    "prefix": "Extraia os pontos-chave disto:\n\n",
+    "instruction": "Você é um assistente que extrai os pontos-chave do texto fornecido pelo usuário. Produza APENAS os pontos-chave sem comentários adicionais. Utilize formatação Markdown (listas, negrito, itálico, blocos de código, etc.) conforme apropriado para tornar o texto legível. Não seja repetitivo ou excessivamente prolixo. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for absolutamente incompatível com a tarefa de extração de pontos-chave (ex.: completo nonsense aleatório), produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
     "icon": "icons/keypoints",
     "open_in_window": true
   },
-  "Summary": {
-    "prefix": "Summarize this:\n\n",
-    "instruction": "You are a summarization assistant.\nProvide a succinct summary of the text provided by the user.\nThe summary should be succinct yet encompass all the key insightful points.\n\nTo make it quite legible and readable, you should use Markdown formatting (bold, italics, codeblocks...) as appropriate.\nYou should also add a little line spacing between your paragraphs as appropriate.\nAnd only if appropriate, you could also use headings (only the very small ones), lists, tables, etc.\n\nDon't be repetitive or too verbose.\nOutput ONLY the summary without additional comments.\nRespond in the same language as the input (e.g., English US, French).\nDo not answer or respond to the user's text content.\nIf the text is absolutely incompatible with summarisation (e.g., totally random gibberish), output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
-    "icon": "icons/summary",
+  "Tabela": {
+    "prefix": "Converta isto em uma tabela:\n\n",
+    "instruction": "Você é um assistente que converte o texto fornecido pelo usuário em uma tabela Markdown. Produza APENAS a tabela sem comentários adicionais. Responda no mesmo idioma do texto de entrada (ex.: Inglês dos EUA, Francês). Não responda ou comente o conteúdo do texto fornecido pelo usuário. Se o texto for completamente incompatível com essa conversão, produza \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
+    "icon": "icons/table",
     "open_in_window": true
-  },
-  "Custom": {
-    "prefix": "Make this change to the following text:\n\n",
-    "instruction": "You are a writing and coding assistant. You MUST make the user\\'s described change to the text or code provided by the user. Output ONLY the appropriately modified text or code without additional comments. Respond in the same language as the input (e.g., English US, French). Do not answer or respond to the user\\'s text content. If the text or code is absolutely incompatible with the requested change, output \"ERROR_TEXT_INCOMPATIBLE_WITH_REQUEST\".",
-    "icon": "icons/summary",
-    "open_in_window": false
   }
 }"""
 
 class ButtonEditDialog(QDialog):
     """
-    Dialog for editing or creating a button's properties
-    (name/title, system instruction, open_in_window, etc.).
+    Diálogo para editar ou criar as propriedades de um botão
+    (nome/título, instrução do sistema, exibir em janela, etc.).
     """
-    def __init__(self, parent=None, button_data=None, title="Edit Button"):
+    def __init__(self, parent=None, button_data=None, title="Editar Botão"):
         super().__init__(parent)
         self.button_data = button_data if button_data else {
-            "prefix": "Make this change to the following text:\n\n",
+            "prefix": "Faça esta alteração no seguinte texto:\n\n",
             "instruction": "",
             "icon": "icons/magnifying-glass",
             "open_in_window": False
@@ -101,8 +96,8 @@ class ButtonEditDialog(QDialog):
     def init_ui(self):
         layout = QVBoxLayout(self)
         
-        # Name
-        name_label = QLabel("Button Name:")
+        # Nome do Botão
+        name_label = QLabel("Nome do Botão:")
         name_label.setStyleSheet(f"color: {'#fff' if colorMode == 'dark' else '#333'}; font-weight: bold;")
         self.name_input = QLineEdit()
         self.name_input.setStyleSheet(f"""
@@ -119,8 +114,8 @@ class ButtonEditDialog(QDialog):
         layout.addWidget(name_label)
         layout.addWidget(self.name_input)
         
-        # Instruction (changed to a multiline QPlainTextEdit)
-        instruction_label = QLabel("What should your AI do with your selected text? (System Instruction)")
+        # Instrução (alterada para um QPlainTextEdit multilinha)
+        instruction_label = QLabel("O que sua IA deve fazer com o texto selecionado? (Instrução do Sistema)")
         instruction_label.setStyleSheet(f"color: {'#fff' if colorMode == 'dark' else '#333'}; font-weight: bold;")
         self.instruction_input = QPlainTextEdit()
         self.instruction_input.setStyleSheet(f"""
@@ -134,27 +129,27 @@ class ButtonEditDialog(QDialog):
         """)
         self.instruction_input.setPlainText(self.button_data.get("instruction", ""))
         self.instruction_input.setMinimumHeight(100)
-        self.instruction_input.setPlaceholderText("""Examples:
-    - Fix / improve / explain this code.
-    - Make it funny.
-    - Add emojis!
-    - Roast this!
-    - Translate to English.
-    - Make the text title case.
-    - If it's all caps, make it all small, and vice-versa.
-    - Write a reply to this.
-    - Analyse potential biases in this news article.""")
+        self.instruction_input.setPlaceholderText("""Exemplos:
+    - Corrija / melhore / explique este código.
+    - Torne-o engraçado.
+    - Adicione emojis!
+    - Tire sarro disso!
+    - Traduza para o inglês.
+    - Coloque o texto em formato de título.
+    - Se estiver todo em maiúsculas, coloque tudo em minúsculas, e vice-versa.
+    - Escreva uma resposta para isto.
+    - Analise possíveis vieses neste artigo de notícias.""")
         layout.addWidget(instruction_label)
         layout.addWidget(self.instruction_input)
         
         # open_in_window
-        display_label = QLabel("How should your AI response be shown?")
+        display_label = QLabel("Como a resposta da sua IA deve ser exibida?")
         display_label.setStyleSheet(f"color: {'#fff' if colorMode == 'dark' else '#333'}; font-weight: bold;")
         layout.addWidget(display_label)
         
         radio_layout = QHBoxLayout()
-        self.replace_radio = QRadioButton("Replace the selected text")
-        self.window_radio = QRadioButton("In a pop-up window (with follow-up support)")
+        self.replace_radio = QRadioButton("Substituir o texto selecionado")
+        self.window_radio = QRadioButton("Em uma janela pop-up (com suporte para acompanhamento)")
         for r in (self.replace_radio, self.window_radio):
             r.setStyleSheet(f"color: {'#fff' if colorMode == 'dark' else '#333'};")
         
@@ -165,10 +160,10 @@ class ButtonEditDialog(QDialog):
         radio_layout.addWidget(self.window_radio)
         layout.addLayout(radio_layout)
         
-        # OK & Cancel
+        # Botões OK & Cancelar
         btn_layout = QHBoxLayout()
         ok_button = QPushButton("OK")
-        cancel_button = QPushButton("Cancel")
+        cancel_button = QPushButton("Cancelar")
         for btn in (ok_button, cancel_button):
             btn.setStyleSheet(f"""
                 QPushButton {{
@@ -200,8 +195,7 @@ class ButtonEditDialog(QDialog):
     def get_button_data(self):
         return {
             "name": self.name_input.text(),
-            "prefix": "Make this change to the following text:\n\n",
-            # Retrieve multiline text
+            "prefix": "Faça esta alteração no seguinte texto:\n\n",
             "instruction": self.instruction_input.toPlainText(),
             "icon": "icons/custom",
             "open_in_window": self.window_radio.isChecked()
@@ -216,18 +210,22 @@ class DraggableButton(QtWidgets.QPushButton):
         self.setAcceptDrops(True)
         self.icon_container = None
 
-        # Enable mouse tracking and hover events, and styled background
+        # Habilita o rastreamento do mouse e eventos de hover, e fundo estilizado
         self.setMouseTracking(True)
         self.setAttribute(QtCore.Qt.WA_Hover, True)
         self.setAttribute(QtCore.Qt.WA_StyledBackground, True)
 
-        # Use a dynamic property "hover" (default False)
+        # Define a propriedade dinâmica "hover" (padrão False)
         self.setProperty("hover", False)
 
-        # Set fixed size (adjust as needed)
-        self.setFixedSize(120, 40)
+        # Calcula a largura com base no texto, mantendo a altura fixa
+        self.setFixedHeight(40)
+        font_metrics = QtGui.QFontMetrics(self.font())
+        text_width = font_metrics.horizontalAdvance(text)
+        # Adiciona margem para o texto + ícone + padding
+        self.setMinimumWidth(max(text_width + 40, 120))
 
-        # Define base style using the dynamic property instead of the :hover pseudo-class
+        # Define o estilo base utilizando a propriedade dinâmica em vez da pseudo-classe :hover
         self.base_style = f"""
             QPushButton {{
                 background-color: {"#444" if colorMode=="dark" else "white"};
@@ -246,7 +244,6 @@ class DraggableButton(QtWidgets.QPushButton):
         logging.debug("DraggableButton initialized")
 
     def enterEvent(self, event):
-        # Only update the hover property if NOT in edit mode.
         if not self.popup.edit_mode:
             self.setProperty("hover", True)
             self.style().unpolish(self)
@@ -367,23 +364,21 @@ class CustomPopupWindow(QtWidgets.QWidget):
         main_layout.addWidget(self.background)
         
         content_layout = QtWidgets.QVBoxLayout(self.background)
-        # Margin Control
         content_layout.setContentsMargins(10, 4, 10, 10)
         content_layout.setSpacing(10)
         
-        # TOP BAR LAYOUT & STYLE
+        # TOPO - BARRA DE CONTROLE
         top_bar = QHBoxLayout()
         top_bar.setContentsMargins(0, 0, 0, 0)
         top_bar.setSpacing(0)
 
-        # The "Edit"/"Done" button (left), same exact size as close button
+        # Botão "Editar"/"Concluir" (à esquerda), do mesmo tamanho que o botão de fechar
         self.edit_button = QPushButton()
         pencil_icon = os.path.join(os.path.dirname(sys.argv[0]),
                                 'icons',
                                 'pencil' + ('_dark' if colorMode=='dark' else '_light') + '.png')
         if os.path.exists(pencil_icon):
             self.edit_button.setIcon(QtGui.QIcon(pencil_icon))
-        # Reduced size to 24x24 to shrink top bar
         self.edit_button.setFixedSize(24, 24)
         self.edit_button.setStyleSheet(f"""
             QPushButton {{
@@ -400,18 +395,18 @@ class CustomPopupWindow(QtWidgets.QWidget):
         self.edit_button.clicked.connect(self.toggle_edit_mode)
         top_bar.addWidget(self.edit_button, 0, Qt.AlignLeft)
 
-        # The label "Drag to rearrange" (BOLD as requested)
-        self.drag_label = QLabel("Drag to rearrange")
+        # Rótulo "Arraste para reorganizar" (em negrito)
+        self.drag_label = QLabel("Arraste para reorganizar")
         self.drag_label.setStyleSheet(f"""
             color: {'#fff' if colorMode=='dark' else '#333'};
             font-size: 14px;
-            font-weight: bold; /* <--- BOLD TEXT */
+            font-weight: bold;
         """)
         self.drag_label.setAlignment(Qt.AlignCenter)
         self.drag_label.hide()
         top_bar.addWidget(self.drag_label, 1, Qt.AlignVCenter | Qt.AlignHCenter)
 
-        # The "Reset" button (edit-mode only) - also 24x24
+        # Botão "Reset" (somente no modo de edição) - também 24x24
         self.reset_button = QPushButton()
         reset_icon_path = os.path.join(os.path.dirname(sys.argv[0]), 'icons',
                                     'restore' + ('_dark' if colorMode=='dark' else '_light') + '.png')
@@ -434,15 +429,15 @@ class CustomPopupWindow(QtWidgets.QWidget):
         self.reset_button.hide()
         top_bar.addWidget(self.reset_button, 0, Qt.AlignRight)
 
-        # Close button block:
+        # Botão de fechar:
         self.close_button = QPushButton("×")
         self.close_button.setFixedSize(24, 24)
         self.close_button.setStyleSheet(f"""
             QPushButton {{
                 background-color: transparent;
                 color: {'#fff' if colorMode=='dark' else '#333'};
-                font-size: 20px;   /* bigger text */
-                font-weight: bold; /* bold text */
+                font-size: 20px;
+                font-weight: bold;
                 border: none;
                 border-radius: 6px;
                 padding: 0px;
@@ -455,14 +450,13 @@ class CustomPopupWindow(QtWidgets.QWidget):
         top_bar.addWidget(self.close_button, 0, Qt.AlignRight)
         content_layout.addLayout(top_bar)
 
-        
-        # Input area (hidden in edit mode)
+        # Área de entrada (oculta no modo de edição)
         self.input_area = QWidget()
         input_layout = QHBoxLayout(self.input_area)
         input_layout.setContentsMargins(0,0,0,0)
         
         self.custom_input = QLineEdit()
-        self.custom_input.setPlaceholderText(_("Describe your change...") if self.has_text else _("Ask your AI..."))
+        self.custom_input.setPlaceholderText(_("Descreva sua alteração...") if self.has_text else _("Pergunte à sua IA..."))
         self.custom_input.setStyleSheet(f"""
             QLineEdit {{
                 padding: 8px;
@@ -503,15 +497,14 @@ class CustomPopupWindow(QtWidgets.QWidget):
             self.build_buttons_list()
             self.rebuild_grid_layout(content_layout)
         else:
-            # If no text, hide the edit button; user can only do custom instructions
             self.edit_button.hide()
             self.custom_input.setMinimumWidth(300)
 
-        # show update notice if applicable
+        # Exibe aviso de atualização, se aplicável
         if self.app.config.get("update_available", False):
             update_label = QLabel()
             update_label.setOpenExternalLinks(True)
-            update_label.setText('<a href="https://github.com/theJayTea/WritingTools/releases" style="color:rgb(255, 0, 0); text-decoration: underline; font-weight: bold;">There\'s an update! :D Download now.</a>')
+            update_label.setText('<a href="https://github.com/theJayTea/WritingTools/releases" style="color:rgb(255, 0, 0); text-decoration: underline; font-weight: bold;">Há uma atualização! :D Baixe agora.</a>')
             update_label.setStyleSheet("margin-top: 10px;")
             content_layout.addWidget(update_label, alignment=QtCore.Qt.AlignCenter)
         
@@ -523,30 +516,30 @@ class CustomPopupWindow(QtWidgets.QWidget):
     def load_options():
         options_path = os.path.join(os.path.dirname(sys.argv[0]), 'options.json')
         if os.path.exists(options_path):
-            with open(options_path, 'r') as f:
+            with open(options_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                logging.debug('Options loaded successfully')
+                logging.debug('Opções carregadas com sucesso')
         else:
-            logging.debug('Options file not found')
-
+            logging.debug('Arquivo de opções não encontrado')
+            data = {}
         return data
 
     @staticmethod
     def save_options(options):
         options_path = os.path.join(os.path.dirname(sys.argv[0]), 'options.json')
-        with open(options_path, 'w') as f:
-            json.dump(options, f, indent=2)
-
+        with open(options_path, 'w', encoding='utf-8') as f:
+            json.dump(options, f, indent=2, ensure_ascii=False)
+            
     def build_buttons_list(self):
         """
-        Reads options.json, creates DraggableButton for each (except "Custom"),
-        storing them in self.button_widgets in the same order as the JSON file.
+        Lê o options.json, cria um DraggableButton para cada botão (exceto "Custom"),
+        armazenando-os em self.button_widgets na mesma ordem do arquivo JSON.
         """
         self.button_widgets.clear()
         data = self.load_options()
 
-        for k,v in data.items():
-            if k=="Custom":
+        for k, v in data.items():
+            if k == "Custom":
                 continue
             b = DraggableButton(self, k, k)
             icon_path = os.path.join(os.path.dirname(sys.argv[0]),
@@ -559,11 +552,10 @@ class CustomPopupWindow(QtWidgets.QWidget):
             self.button_widgets.append(b)
 
     def rebuild_grid_layout(self, parent_layout=None):
-        """Rebuild grid layout with consistent sizing and proper Add New button placement."""
+        """Reconstrói o layout em grade com tamanho consistente e posicionamento correto do botão 'Adicionar Novo'."""
         if not parent_layout:
             parent_layout = self.background.layout()
 
-        # Remove existing grid and Add New button
         for i in reversed(range(parent_layout.count())):
             item = parent_layout.itemAt(i)
             if isinstance(item, QtWidgets.QGridLayout):
@@ -577,13 +569,11 @@ class CustomPopupWindow(QtWidgets.QWidget):
                 and item.widget().text() == "+ Add New"):
                 item.widget().deleteLater()
 
-        # Create new grid with fixed column width
         grid = QtWidgets.QGridLayout()
-        grid.setSpacing(10)  
+        grid.setSpacing(10)
         grid.setColumnMinimumWidth(0, 120)
         grid.setColumnMinimumWidth(1, 120)
         
-        # Add buttons to grid
         row = 0
         col = 0
         for b in self.button_widgets:
@@ -595,9 +585,8 @@ class CustomPopupWindow(QtWidgets.QWidget):
         
         parent_layout.addLayout(grid)
         
-        # Add New button (only in edit mode & only if we have text)
         if self.edit_mode and self.has_text:
-            add_btn = QPushButton("+ Add New")
+            add_btn = QPushButton("+ Adicionar Novo")
             add_btn.setStyleSheet(f"""
                 QPushButton {{
                     background-color: {'#333' if colorMode=='dark' else '#e0e0e0'};
@@ -617,7 +606,7 @@ class CustomPopupWindow(QtWidgets.QWidget):
             parent_layout.addWidget(add_btn)
 
     def add_edit_delete_icons(self, btn):
-        """Add edit/delete icons as overlays with proper spacing."""
+        """Adiciona ícones de edição/exclusão como sobreposições com espaçamento adequado."""
         if hasattr(btn, 'icon_container') and btn.icon_container:
             btn.icon_container.deleteLater()
         
@@ -642,7 +631,6 @@ class CustomPopupWindow(QtWidgets.QWidget):
             }}
         """
         
-        # Create edit icon (top-left)
         edit_btn = QPushButton(btn.icon_container)
         edit_btn.setGeometry(3, 3, 16, 16)
         pencil_icon = os.path.join(os.path.dirname(sys.argv[0]),
@@ -653,7 +641,6 @@ class CustomPopupWindow(QtWidgets.QWidget):
         edit_btn.clicked.connect(partial(self.edit_button_clicked, btn))
         edit_btn.show()
         
-        # Create delete icon (top-right)
         delete_btn = QPushButton(btn.icon_container)
         delete_btn.setGeometry(btn.width() - 23, 3, 16, 16)
         del_icon = os.path.join(os.path.dirname(sys.argv[0]),
@@ -668,14 +655,12 @@ class CustomPopupWindow(QtWidgets.QWidget):
         btn.icon_container.show()
 
     def toggle_edit_mode(self):
-        """Toggle edit mode with improved button labels and state handling."""
+        """Alterna o modo de edição com rótulos de botão e estado aprimorados."""
         self.edit_mode = not self.edit_mode
-        logging.debug(f'Edit mode toggled: {self.edit_mode}')
+        logging.debug(f'Modo de edição alterado: {self.edit_mode}')
 
         if self.edit_mode:
-            # Switch to edit mode:
             icon_name = "check"
-            # No text, just the check icon, a bit bigger:
             self.edit_button.setText("")
             self.edit_button.setFixedSize(36, 36)
             self.edit_button.setStyleSheet(f"""
@@ -689,36 +674,29 @@ class CustomPopupWindow(QtWidgets.QWidget):
                     background-color: {'#333' if colorMode=='dark' else '#ebebeb'};
                 }}
             """)
-            # Hide close, show reset button & drag label
             self.close_button.hide()
             self.reset_button.show()
             self.drag_label.show()
 
         else:
-            # Switch back to normal (non-edit) mode:
             icon_name = "pencil"
             self.edit_button.setText("")
-            self.edit_button.setFixedSize(24, 24)  # Return to normal size
-            # Show close, hide reset & drag label
+            self.edit_button.setFixedSize(24, 24)
             self.close_button.show()
             self.reset_button.hide()
             self.drag_label.hide()
 
-            # Inform the user that the app will close to apply changes
             msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle("Quitting to apply changes...")
-            msg.setText("Writing Tools needs to relaunch to apply your changes & will now quit.\nPlease relaunch Writing Tools.exe to see your changes.")
+            msg.setWindowTitle("Encerrando para aplicar as mudanças...")
+            msg.setText("O Writing Tools precisa ser reiniciado para aplicar suas mudanças e agora será encerrado.\nPor favor, reinicie o Writing Tools.exe para ver suas mudanças.")
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.exec_()
 
             self.app.load_options()
             self.close()
-            # Instead of restarting, simply exit the app:
             QtCore.QTimer.singleShot(100, self.app.exit_app)
             return
 
-
-        # Update the edit button icon now that icon_name is defined
         icon_path = os.path.join(
             os.path.dirname(sys.argv[0]),
             'icons',
@@ -727,10 +705,8 @@ class CustomPopupWindow(QtWidgets.QWidget):
         if os.path.exists(icon_path):
             self.edit_button.setIcon(QtGui.QIcon(icon_path))
 
-        # Toggle the main input area
         self.input_area.setVisible(not self.edit_mode)
 
-        # Update button overlays
         for btn in self.button_widgets:
             try:
                 btn.clicked.disconnect()
@@ -747,47 +723,44 @@ class CustomPopupWindow(QtWidgets.QWidget):
 
             btn.setStyleSheet(btn.base_style)
 
-        # Rebuild grid layout
         self.rebuild_grid_layout()
-
 
     def on_reset_clicked(self):
         """
-        Reset `options.json` to the DEFAULT_OPTIONS_JSON, then show message & restart.
+        Redefine o arquivo `options.json` para o DEFAULT_OPTIONS_JSON e, em seguida, exibe mensagem e reinicia.
         """
         confirm_box = QtWidgets.QMessageBox()
-        confirm_box.setWindowTitle("Confirm Reset to Defaults & Quit?")
-        confirm_box.setText("To reset the buttons to their original configuration, Writing Tools would need to quit, so you'd need to relaunch Writing Tools.exe.\nAre you sure you want to continue?")
+        confirm_box.setWindowTitle("Confirmar Redefinição para os Padrões e Encerramento?")
+        confirm_box.setText("Para redefinir os botões para a configuração original, o Writing Tools precisará ser encerrado, então você precisará reiniciar o Writing Tools.exe.\nTem certeza de que deseja continuar?")
         confirm_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         confirm_box.setDefaultButton(QtWidgets.QMessageBox.No)
         
         if confirm_box.exec_() == QtWidgets.QMessageBox.Yes:
             try:
-                logging.debug('Resetting to default options.json')
+                logging.debug('Redefinindo para as opções padrão do options.json')
                 default_data = json.loads(DEFAULT_OPTIONS_JSON)
                 self.save_options(default_data)
 
-                # Save and quit
                 self.app.load_options()
                 self.close()
                 QtCore.QTimer.singleShot(100, self.app.exit_app)
             
             except Exception as e:
-                logging.error(f"Error resetting options.json: {e}")
+                logging.error(f"Erro ao redefinir o options.json: {e}")
                 error_msg = QtWidgets.QMessageBox()
-                error_msg.setWindowTitle("Error")
-                error_msg.setText(f"An error occurred while resetting: {str(e)}")
+                error_msg.setWindowTitle("Erro")
+                error_msg.setText(f"Ocorreu um erro ao redefinir: {str(e)}")
                 error_msg.exec_()
 
     def add_new_button_clicked(self):
-        dialog = ButtonEditDialog(self, title="Add New Button")
+        dialog = ButtonEditDialog(self, title="Adicionar Novo Botão")
         if dialog.exec_():
             bd = dialog.get_button_data()
             data = self.load_options()
             data[bd["name"]] = {
                 "prefix": bd["prefix"],
                 "instruction": bd["instruction"],
-                "icon": bd["icon"],  # uses 'icons/custom'
+                "icon": bd["icon"],
                 "open_in_window": bd["open_in_window"]
             }
             self.save_options(data)
@@ -799,17 +772,16 @@ class CustomPopupWindow(QtWidgets.QWidget):
             
             QtWidgets.QMessageBox.information(
                 self, 
-                "Quitting to apply button...",
-                "Writing Tools needs to relaunch to apply your fancy button & will now quit.\nPlease relaunch Writing Tools.exe to see your new button."
+                "Encerrando para aplicar o novo botão...",
+                "O Writing Tools precisa ser reiniciado para aplicar seu novo botão e agora será encerrado.\nPor favor, reinicie o Writing Tools.exe para ver seu novo botão."
             )
 
             self.app.load_options()
             self.close()
             QtCore.QTimer.singleShot(100, self.app.exit_app)
 
-
     def edit_button_clicked(self, btn):
-        """User clicked the small pencil icon over a button."""
+        """O usuário clicou no pequeno ícone de lápis sobre um botão."""
         key = btn.key
         data = self.load_options()
         bd = data[key]
@@ -834,24 +806,22 @@ class CustomPopupWindow(QtWidgets.QWidget):
 
             self.hide()
 
-            # Show message about relaunch requirement
             QtWidgets.QMessageBox.information(
                 self, 
-                "Quitting to apply changes to this button...",
-                "Writing Tools needs to relaunch to apply your changes & will now quit.\nPlease relaunch Writing Tools.exe to see your changes."
+                "Encerrando para aplicar as mudanças neste botão...",
+                "O Writing Tools precisa ser reiniciado para aplicar suas mudanças e agora será encerrado.\nPor favor, reinicie o Writing Tools.exe para ver suas mudanças."
             )
 
-            # Save and quit
             self.app.load_options()
             self.close()
             QtCore.QTimer.singleShot(100, self.app.exit_app)
 
     def delete_button_clicked(self, btn):
-        """Handle deletion of a button."""
+        """Trata a exclusão de um botão."""
         key = btn.key
         confirm = QtWidgets.QMessageBox()
-        confirm.setWindowTitle("Confirm Delete & Quit?")
-        confirm.setText(f"To delete the '{key}' button, Writing Tools would need to quit, so you'd need to relaunch Writing Tools.exe.\nAre you sure you want to continue?")
+        confirm.setWindowTitle("Confirmar Exclusão e Encerramento?")
+        confirm.setText(f"Para excluir o botão '{key}', o Writing Tools precisará ser encerrado, então você precisará reiniciar o Writing Tools.exe.\nTem certeza de que deseja continuar?")
         confirm.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         confirm.setDefaultButton(QtWidgets.QMessageBox.No)
         
@@ -861,7 +831,6 @@ class CustomPopupWindow(QtWidgets.QWidget):
                 del data[key]
                 self.save_options(data)
 
-                # Clean up UI elements
                 for btn_ in self.button_widgets[:]:
                     if btn_.key == key:
                         if hasattr(btn_, 'icon_container') and btn_.icon_container:
@@ -874,16 +843,16 @@ class CustomPopupWindow(QtWidgets.QWidget):
                 QtCore.QTimer.singleShot(100, self.app.exit_app)
                 
             except Exception as e:
-                logging.error(f"Error deleting button: {e}")
+                logging.error(f"Erro ao excluir o botão: {e}")
                 error_msg = QtWidgets.QMessageBox()
-                error_msg.setWindowTitle("Error")
-                error_msg.setText(f"An error occurred while deleting the button: {str(e)}")
+                error_msg.setWindowTitle("Erro")
+                error_msg.setText(f"Ocorreu um erro ao excluir o botão: {str(e)}")
                 error_msg.exec_()
 
     def update_json_from_grid(self):
         """
-        Called after a drop reorder. Reflect the new order in options.json,
-        so that user's custom arrangement persists.
+        Chamado após a reorganização por drag & drop. Reflete a nova ordem no options.json,
+        para que a disposição personalizada do usuário seja mantida.
         """
         data = self.load_options()
         new_data = {"Custom": data["Custom"]} if "Custom" in data else {}
@@ -903,15 +872,14 @@ class CustomPopupWindow(QtWidgets.QWidget):
             self.close()
 
     def eventFilter(self, obj, event):
-        # Hide on deactivate only if NOT in edit mode
-        if event.type()==QtCore.QEvent.WindowDeactivate:
+        if event.type() == QtCore.QEvent.WindowDeactivate:
             if not self.edit_mode:
                 self.hide()
                 return True
         return super().eventFilter(obj, event)
 
     def keyPressEvent(self, event):
-        if event.key()==QtCore.Qt.Key_Escape:
+        if event.key() == QtCore.Qt.Key_Escape:
             self.close()
         else:
             super().keyPressEvent(event)
